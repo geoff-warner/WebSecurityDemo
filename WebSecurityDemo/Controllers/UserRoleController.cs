@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebSecurityDemo.Repositories;
 using WebSecurityDemo.ViewModels;
@@ -37,6 +38,9 @@ namespace WebSecurityDemo.Controllers
             return View(roles);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         // Delete role from user
         public async Task<IActionResult> Delete(string userName, string roleName)
         {

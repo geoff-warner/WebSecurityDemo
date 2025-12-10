@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebSecurityDemo.Models;
 using WebSecurityDemo.Repositories;
 
 namespace WebSecurityDemo.Controllers
@@ -21,13 +22,12 @@ namespace WebSecurityDemo.Controllers
             return View(customers);
         }
 
-        // GET delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public IActionResult DeleteCustomer(int customerId)
+        public IActionResult Delete(int customerId)
         {
             string message = _customerRepo.DeleteCustomer(customerId);
-
-            // Redirect back to the list with a status message
             return RedirectToAction(nameof(Index), new { message });
         }
 
